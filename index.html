@@ -220,6 +220,45 @@ ol.inst strong{color:var(--black);font-weight:700}
 #toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--black);color:var(--white);padding:10px 20px;border-radius:var(--pill);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:400;white-space:nowrap;border:2px solid var(--green)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.err-toast{border-color:var(--red)}
+/* ORDERS */
+.po-row{display:flex;align-items:center;padding:12px 14px;border-bottom:1px solid rgba(0,0,0,.07);gap:10px;cursor:pointer}
+.po-row:last-child{border-bottom:none}
+.po-row:active{background:var(--bg)}
+.po-main{flex:1;min-width:0}
+.po-inv{font-size:14px;font-weight:800;letter-spacing:.02em}
+.po-meta{font-size:11px;color:var(--muted);margin-top:2px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.po-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.po-pallets{font-size:15px;font-weight:900;font-style:italic;line-height:1}
+.pill-transit{background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE}
+.pill-partial{background:#FFFBEB;color:#92400E;border:1px solid #FDE68A}
+.pill-complete{background:var(--green-light);color:var(--green-dark);border:1px solid var(--green)}
+.pill-disc{background:var(--red-light);color:var(--red);border:1px solid #FECACA}
+.detail-back{display:flex;align-items:center;gap:6px;padding:0 0 12px;font-size:12px;font-weight:800;color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.06em;border:none;background:none;-webkit-appearance:none;font-family:'Barlow',sans-serif}
+.detail-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.detail-hd{background:var(--black);border-radius:var(--radius) var(--radius) 0 0;padding:14px 16px;border:3px solid var(--green);border-bottom:none}
+.detail-inv{font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.detail-vendor{font-size:20px;font-weight:900;font-style:italic;color:var(--white);text-transform:uppercase;line-height:1.1}
+.detail-body{background:var(--surface);border:3px solid var(--green);border-top:none;border-radius:0 0 var(--radius) var(--radius);padding:14px 16px;margin-bottom:14px}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;margin-bottom:14px}
+.detail-lbl{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:2px}
+.detail-val{font-size:13px;font-weight:700}
+.rcpt-row{display:flex;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.06);gap:10px}
+.rcpt-row:last-child{border-bottom:none}
+.rcpt-main{flex:1;min-width:0}
+.rcpt-bol{font-size:13px;font-weight:700}
+.rcpt-meta{font-size:11px;color:var(--muted);margin-top:2px;font-weight:500}
+.rcpt-qty{font-size:18px;font-weight:900;font-style:italic;color:var(--blue);flex-shrink:0;align-self:center}
+.buy-row{display:flex;align-items:center;padding:9px 8px;border-bottom:1px solid rgba(0,0,0,.05);gap:8px;font-size:12px}
+.buy-row:last-child{border-bottom:none}
+.buy-cat{flex:1;font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.buy-bar-wrap{width:60px;flex-shrink:0;height:8px;background:rgba(0,0,0,.08);border-radius:4px;overflow:hidden}
+.buy-bar{height:100%;border-radius:4px}
+.buy-num{min-width:36px;text-align:right;font-weight:800;font-style:italic;flex-shrink:0}
+.tgt-row{display:flex;align-items:center;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.05);gap:12px}
+.tgt-row:last-child{border-bottom:none}
+.tgt-lbl{flex:1;font-size:13px;font-weight:600}
+.tgt-inp{width:68px;padding:7px 8px;border:2px solid rgba(0,0,0,.12);border-radius:var(--radius-sm);font-family:'Barlow',sans-serif;font-size:15px;font-weight:800;text-align:center;background:var(--surface);color:var(--black);-webkit-appearance:none;outline:none}
+.tgt-inp:focus{border-color:var(--pink)}
 </style>
 </head>
 <body>
@@ -246,6 +285,10 @@ ol.inst strong{color:var(--black);font-weight:700}
     <button class="nb" id="nb-transfer" onclick="go('transfer')">
       <svg viewBox="0 0 24 24"><path d="M5 12h14M15 6l6 6-6 6"/></svg>
       Transfer
+    </button>
+    <button class="nb" id="nb-orders" onclick="go('orders')">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+      Orders
     </button>
     <button class="nb" id="nb-balance" onclick="go('balance')">
       <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
@@ -327,6 +370,37 @@ ol.inst strong{color:var(--black);font-weight:700}
       </div>
       <div class="sdiv">Transfer history</div>
       <div id="transfer-log"></div>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="screen" id="screen-orders">
+      <div id="orders-list-view" style="padding:14px">
+        <div class="card p-brd">
+            <div class="ctitle p">New Purchase Order</div>
+            <div class="frow2 fg">
+              <div><label class="flbl">Date</label><input type="date" class="fi" id="po-date"></div>
+              <div><label class="flbl">Invoice #</label><input type="text" class="fi" id="po-inv" placeholder="e.g. INV-1001"></div>
+            </div>
+            <div class="frow2 fg">
+              <div><label class="flbl">Vendor</label><input type="text" class="fi" id="po-vendor" placeholder="Vendor name"></div>
+              <div><label class="flbl">Shipper</label><input type="text" class="fi" id="po-shipper" placeholder="Shipper name"></div>
+            </div>
+            <div class="frow2 fg">
+              <div><label class="flbl">Category</label><select class="fs" id="po-cat">CATOPTS</select></div>
+              <div><label class="flbl">Pallets Ordered</label><input type="number" class="fi" id="po-pallets" min="1" placeholder="0" inputmode="numeric"></div>
+            </div>
+            <div class="fg"><label class="flbl">Note (optional)</label><input type="text" class="fi" id="po-note" placeholder="optional"></div>
+            <button class="btn btn-p" onclick="addOrder()">+ Create Purchase Order</button>
+          </div>
+          <div class="sdiv" style="display:flex;align-items:center;justify-content:space-between">
+            <span>Purchase Orders</span>
+            <button class="btn-icon" onclick="toggleClosedPOs()" id="btn-show-closed">Show Closed</button>
+          </div>
+          <div id="po-list-content"></div>
+      </div>
+      <div id="orders-detail-view" style="display:none;padding:14px">
+        <div id="po-detail-content"></div>
+      </div>
     </div>
 
     <!-- REPORTS -->
@@ -438,6 +512,20 @@ ol.inst strong{color:var(--black);font-weight:700}
   </div>
 </div>
 
+<!-- Targets Modal -->
+<div class="modal-overlay" id="targets-modal" onclick="closeTargetsModal(event)">
+  <div class="modal" style="max-height:75vh;overflow-y:auto">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Par Levels — <span id="targets-modal-store"></span></div>
+    <p style="font-size:11px;color:var(--muted);font-weight:500;margin-bottom:12px;line-height:1.5">Target back inventory per category. Drives purchasing recommendations in Reports.</p>
+    <div id="targets-modal-body"></div>
+    <div class="modal-btns" style="margin-top:14px">
+      <button class="btn btn-d" onclick="closeTargetsModal()">Cancel</button>
+      <button class="btn btn-g" onclick="saveTargets()">Save Targets</button>
+    </div>
+  </div>
+</div>
+
 <!-- Confirm Dialog -->
 <div class="confirm-overlay" id="confirm-overlay">
   <div class="confirm-box">
@@ -458,6 +546,13 @@ const CATS   = ['Bedding','Children','Decor','Furniture','Home and Garden','Home
                  'Luggage','Mixed Lots','Outdoor Furniture','Rugs','Seasonal',
                  'Small Appliances','Sports and Outdoor','Storage','Toys'];
 const MAX_FUTURE_DAYS = 1; // allow today and tomorrow at most for date entries
+const DEFAULT_TARGETS = {
+  'Bedding':12,'Children':8,'Decor':16,'Furniture':18,
+  'Home and Garden':12,'Home Decor':12,'Luggage':10,
+  'Mixed Lots':24,'Outdoor Furniture':8,'Rugs':5,
+  'Seasonal':10,'Small Appliances':8,'Sports and Outdoor':8,
+  'Storage':8,'Toys':14
+};
 
 (function(){
   const catOpts   = CATS.map(c=>'<option>'+c+'</option>').join('');
@@ -466,15 +561,16 @@ const MAX_FUTURE_DAYS = 1; // allow today and tomorrow at most for date entries
     .split('CATOPTS').join(catOpts).split('STOREOPTS').join(storeOpts);
 })();
 
-let S = { store:'Akron', events:[], transfers:[], validated:{}, sheetUrl:'', exportHistory:[] };
+let S = { store:'Akron', events:[], transfers:[], validated:{}, sheetUrl:'', exportHistory:[], targets:{}, orders:[], receipts:[] };
 let editingId=null, editingXfer=null;
 let confirmCallback=null;
+let orderDetailInvoice=null, showClosed=false;
 
 function save(){ try{ localStorage.setItem('kb9',JSON.stringify(S)); }catch(e){} }
 function load(){ try{ const d=localStorage.getItem('kb9'); if(d) S={...S,...JSON.parse(d)}; }catch(e){} }
 
 load();
-setToday('r-date'); setToday('p-date'); setToday('t-date');
+setToday('r-date'); setToday('p-date'); setToday('t-date'); setToday('po-date');
 if(S.sheetUrl) document.getElementById('surl').value=S.sheetUrl;
 document.getElementById('store-lbl').textContent=S.store;
 syncXferFrom();
@@ -718,6 +814,7 @@ function go(name){
   document.getElementById('content').scrollTop=0;
   if(name==='inventory'){ renderInventory(); setTimeout(updateProcHint,50); }
   if(name==='transfer'){ syncXferFrom(); renderTransferLog(); setTimeout(updateXferHint,50); }
+  if(name==='orders'){ showOrdersList(); setToday('po-date'); }
   if(name==='balance') renderBalance();
   if(name==='export'){ updateNxt(); renderHist(); }
 }
@@ -735,7 +832,7 @@ function pickStore(s){
   S.store=s;
   document.getElementById('store-lbl').textContent=s;
   document.getElementById('overlay').classList.remove('open');
-  buildSList(); syncXferFrom(); save(); renderInventory();
+  buildSList(); syncXferFrom(); save(); renderInventory(); showOrdersList();
   setTimeout(()=>{ updateProcHint(); updateXferHint(); },50);
   toast('Switched to '+s);
 }
@@ -1101,6 +1198,318 @@ function renderTransferLog(){
   '</div>';
 }
 
+// ── ORDERS ────────────────────────────────────────────────────
+function getTargets(store){ return Object.assign({},DEFAULT_TARGETS,S.targets[store]||{}); }
+
+function showOrdersList(){
+  orderDetailInvoice=null;
+  const lv=document.getElementById('orders-list-view');
+  const dv=document.getElementById('orders-detail-view');
+  if(lv) lv.style.display='block';
+  if(dv) dv.style.display='none';
+  document.getElementById('content').scrollTop=0;
+  renderOrdersList();
+}
+
+function calcOrderStatus(o){
+  const recvd=S.receipts.filter(r=>r.invoiceNum===o.invoiceNum).reduce((a,r)=>a+r.palletsReceived,0);
+  if(!recvd) return 'In Transit';
+  if(o.closed||recvd>=o.palletsOrdered) return recvd>=o.palletsOrdered?'Complete':'Discrepancy';
+  return 'Partially Received';
+}
+
+function poStatusPill(st){
+  const cls={'In Transit':'pill-transit','Partially Received':'pill-partial','Complete':'pill-complete','Discrepancy':'pill-disc'};
+  return '<span class="pill '+(cls[st]||'')+'">'+st+'</span>';
+}
+
+function palletsOnOrder(store,cat){
+  return S.orders
+    .filter(o=>o.store===store&&o.cat===cat)
+    .filter(o=>{ const s=calcOrderStatus(o); return s==='In Transit'||s==='Partially Received'; })
+    .reduce((a,o)=>{
+      const recvd=S.receipts.filter(r=>r.invoiceNum===o.invoiceNum).reduce((s,r)=>s+r.palletsReceived,0);
+      return a+Math.max(0,o.palletsOrdered-recvd);
+    },0);
+}
+
+function addOrder(){
+  const date=document.getElementById('po-date').value;
+  const inv=document.getElementById('po-inv').value.trim().toUpperCase();
+  const vendor=document.getElementById('po-vendor').value.trim();
+  const shipper=document.getElementById('po-shipper').value.trim();
+  const cat=document.getElementById('po-cat').value;
+  const pallets=Math.floor(Math.abs(parseFloat(document.getElementById('po-pallets').value)||0));
+  const note=document.getElementById('po-note').value.trim();
+  if(!date||!inv||!vendor||!shipper||pallets<=0){ showToast('Fill in all fields — date, invoice #, vendor, shipper, and pallets','err'); return; }
+  if(S.orders.find(o=>o.invoiceNum===inv)){ showToast('Invoice # '+inv+' already exists','err'); return; }
+  S.orders.push({id:uid(),invoiceNum:inv,date,vendor,cat,shipper,palletsOrdered:pallets,note,store:S.store,closed:false,ts:Date.now()});
+  S.orders.sort((a,b)=>b.date.localeCompare(a.date)||b.ts-a.ts);
+  ['po-inv','po-vendor','po-shipper','po-pallets','po-note'].forEach(id=>{ document.getElementById(id).value=''; });
+  save(); renderOrdersList();
+  toast('PO '+inv+' created');
+}
+
+function deleteOrder(id){
+  const o=S.orders.find(x=>x.id===id); if(!o) return;
+  const n=S.receipts.filter(r=>r.invoiceNum===o.invoiceNum).length;
+  confirmAction('Delete PO '+o.invoiceNum,
+    'Delete this PO'+(n?' and its '+n+' receipt(s)':'')+' for '+o.palletsOrdered+' pallets of '+o.cat+'? Cannot be undone.','Delete',()=>{
+      const evIds=S.receipts.filter(r=>r.invoiceNum===o.invoiceNum).map(r=>r.evId).filter(Boolean);
+      S.events=S.events.filter(e=>!evIds.includes(e.id));
+      S.receipts=S.receipts.filter(r=>r.invoiceNum!==o.invoiceNum);
+      S.orders=S.orders.filter(x=>x.id!==id);
+      save(); showOrdersList(); renderInventory(); toast('PO deleted');
+    });
+}
+
+function closeOrder(invoiceNum){
+  const o=S.orders.find(x=>x.invoiceNum===invoiceNum); if(!o) return;
+  const recvd=S.receipts.filter(r=>r.invoiceNum===invoiceNum).reduce((a,r)=>a+r.palletsReceived,0);
+  const match=recvd===o.palletsOrdered;
+  confirmAction('Close PO '+invoiceNum,
+    match?'All '+recvd+' pallets accounted for. Mark as Complete?':'Only '+recvd+' of '+o.palletsOrdered+' pallets received. Mark as Discrepancy?',
+    'Close PO',()=>{ o.closed=true; save(); renderOrderDetail(invoiceNum); toast('PO '+invoiceNum+' '+(match?'Complete':'Discrepancy')); });
+}
+
+function reopenOrder(invoiceNum){
+  const o=S.orders.find(x=>x.invoiceNum===invoiceNum); if(!o) return;
+  o.closed=false; save(); renderOrderDetail(invoiceNum); toast('PO '+invoiceNum+' reopened');
+}
+
+function toggleClosedPOs(){
+  showClosed=!showClosed;
+  const btn=document.getElementById('btn-show-closed');
+  if(btn) btn.textContent=showClosed?'Hide Closed':'Show Closed';
+  renderOrdersList();
+}
+
+function renderOrdersList(){
+  const el=document.getElementById('po-list-content'); if(!el) return;
+  let orders=S.orders.filter(o=>o.store===S.store);
+  if(!showClosed) orders=orders.filter(o=>{ const s=calcOrderStatus(o); return s!=='Complete'&&s!=='Discrepancy'; });
+  if(!orders.length){
+    el.innerHTML='<div class="empty"><div class="ico">&#128203;</div><p>'+(showClosed?'No purchase orders for '+S.store:'No open orders for '+S.store)+'</p></div>'; return;
+  }
+  el.innerHTML='<div class="card" style="padding:0;overflow:hidden">'+
+    orders.map(o=>{
+      const st=calcOrderStatus(o);
+      const recvd=S.receipts.filter(r=>r.invoiceNum===o.invoiceNum).reduce((a,r)=>a+r.palletsReceived,0);
+      return '<div class="po-row" onclick="openOrderDetail(\''+o.invoiceNum+'\')">'+
+        '<div class="po-main">'+
+          '<div class="po-inv">'+o.invoiceNum+'</div>'+
+          '<div class="po-meta">'+o.vendor+' &middot; '+o.cat+' &middot; '+o.date+'</div>'+
+        '</div>'+
+        '<div class="po-right">'+
+          '<div class="po-pallets" style="color:var(--blue)">'+recvd+'/'+o.palletsOrdered+' pal</div>'+
+          poStatusPill(st)+
+        '</div>'+
+      '</div>';
+    }).join('')+
+  '</div>';
+}
+
+function openOrderDetail(invoiceNum){
+  orderDetailInvoice=invoiceNum;
+  document.getElementById('orders-list-view').style.display='none';
+  document.getElementById('orders-detail-view').style.display='block';
+  document.getElementById('content').scrollTop=0;
+  renderOrderDetail(invoiceNum);
+}
+
+function renderOrderDetail(invoiceNum){
+  const el=document.getElementById('po-detail-content'); if(!el) return;
+  const o=S.orders.find(x=>x.invoiceNum===invoiceNum); if(!o){ showOrdersList(); return; }
+  const st=calcOrderStatus(o);
+  const receipts=S.receipts.filter(r=>r.invoiceNum===invoiceNum).slice().sort((a,b)=>b.ts-a.ts);
+  const totalRecvd=receipts.reduce((a,r)=>a+r.palletsReceived,0);
+  const remaining=o.palletsOrdered-totalRecvd;
+  let html='<button class="detail-back" onclick="showOrdersList()">'+
+    '<svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> All Orders</button>';
+  html+='<div class="detail-hd">'+
+    '<div class="detail-inv">'+o.invoiceNum+' &nbsp;'+poStatusPill(st)+'</div>'+
+    '<div class="detail-vendor">'+o.vendor+'</div>'+
+  '</div>'+
+  '<div class="detail-body">'+
+    '<div class="detail-grid">'+
+      '<div><div class="detail-lbl">Date</div><div class="detail-val">'+o.date+'</div></div>'+
+      '<div><div class="detail-lbl">Store</div><div class="detail-val">'+o.store+'</div></div>'+
+      '<div><div class="detail-lbl">Category</div><div class="detail-val">'+o.cat+'</div></div>'+
+      '<div><div class="detail-lbl">Shipper</div><div class="detail-val">'+o.shipper+'</div></div>'+
+      '<div><div class="detail-lbl">Pallets Ordered</div><div class="detail-val" style="color:var(--blue)">'+o.palletsOrdered+'</div></div>'+
+      '<div><div class="detail-lbl">Pallets Received</div><div class="detail-val" style="color:'+(totalRecvd>=o.palletsOrdered?'var(--green-dark)':'var(--amber)')+'">'+totalRecvd+'</div></div>'+
+    '</div>'+
+    (o.note?'<div style="font-size:12px;color:var(--muted);font-weight:500">'+o.note+'</div>':'')+
+  '</div>';
+  if(st==='Discrepancy')
+    html+='<div class="alert err" style="margin-bottom:14px">&#9888; Discrepancy: '+totalRecvd+' of '+o.palletsOrdered+' pallets received. '+Math.abs(remaining)+' pallets unaccounted.</div>';
+  html+='<div class="sdiv">Receiving Records ('+receipts.length+')</div>';
+  if(receipts.length){
+    html+='<div class="card" style="padding:0 14px;margin-bottom:14px">'+
+      receipts.map(r=>
+        '<div class="rcpt-row">'+
+          '<div class="rcpt-main">'+
+            '<div class="rcpt-bol">BOL: '+r.bol+'</div>'+
+            '<div class="rcpt-meta">'+r.receivedDate+(r.note?' &middot; '+r.note:'')+'</div>'+
+          '</div>'+
+          '<div class="rcpt-qty">'+r.palletsReceived+' pal</div>'+
+          '<div class="tx-btns"><button class="btn-icon btn-del" onclick="deleteReceipt(\''+r.id+'\',\''+invoiceNum+'\')">&#10005;</button></div>'+
+        '</div>'
+      ).join('')+
+    '</div>';
+  } else {
+    html+='<div class="empty" style="padding:20px 0"><div class="ico">&#128230;</div><p>No receipts yet</p></div>';
+  }
+  if(!o.closed&&st!=='Complete'){
+    html+='<div class="card a-brd">'+
+      '<div class="ctitle a">Log Receipt</div>'+
+      '<div class="frow2 fg">'+
+        '<div><label class="flbl">Received Date</label><input type="date" class="fi" id="rcpt-date"></div>'+
+        '<div><label class="flbl">Bill of Lading</label><input type="text" class="fi" id="rcpt-bol" placeholder="BOL #"></div>'+
+      '</div>'+
+      '<div class="fg">'+
+        '<label class="flbl">Pallets Received</label>'+
+        '<input type="number" class="fi" id="rcpt-pallets" min="1" placeholder="0" inputmode="numeric">'+
+        (remaining>0?'<div class="avail-hint show ok">'+remaining+' pallet'+(remaining===1?'':'s')+' still expected on this order</div>':'')+
+      '</div>'+
+      '<div class="fg"><label class="flbl">Note (optional)</label><input type="text" class="fi" id="rcpt-note" placeholder="optional"></div>'+
+      '<button class="btn btn-a" onclick="addReceipt(\''+invoiceNum+'\')">Log Shipment Receipt</button>'+
+    '</div>';
+  }
+  if(!o.closed&&receipts.length>0)
+    html+='<button class="btn btn-red" style="margin-bottom:10px" onclick="closeOrder(\''+invoiceNum+'\')">Close PO (Finalize)</button>';
+  if(o.closed)
+    html+='<button class="btn btn-d" style="margin-bottom:10px" onclick="reopenOrder(\''+invoiceNum+'\')">Reopen PO</button>';
+  html+='<button class="btn btn-d" style="margin-bottom:14px;border-color:var(--red);color:var(--red)" onclick="deleteOrder(\''+o.id+'\')">Delete PO</button>';
+  el.innerHTML=html;
+  const rd=document.getElementById('rcpt-date'); if(rd) rd.value=today();
+}
+
+function addReceipt(invoiceNum){
+  const o=S.orders.find(x=>x.invoiceNum===invoiceNum); if(!o) return;
+  const date=document.getElementById('rcpt-date').value;
+  const bol=document.getElementById('rcpt-bol').value.trim();
+  const pallets=Math.floor(Math.abs(parseFloat(document.getElementById('rcpt-pallets').value)||0));
+  const note=document.getElementById('rcpt-note').value.trim();
+  if(!date||!bol||pallets<=0){ showToast('Enter date, BOL #, and pallets received','err'); return; }
+  if(isFutureDate(date)){ showToast('Date is too far in the future','err'); return; }
+  const evId=uid();
+  S.events.push({id:evId,store:o.store,date,cat:o.cat,qty:pallets,type:'recv',note:'PO '+invoiceNum+(note?' — '+note:''),ts:Date.now()});
+  S.events.sort((a,b)=>a.date.localeCompare(b.date)||a.ts-b.ts);
+  S.receipts.push({id:uid(),invoiceNum,receivedDate:date,bol,palletsReceived:pallets,note,evId,ts:Date.now()});
+  save(); renderOrderDetail(invoiceNum); renderInventory();
+  toast(pallets+' pal logged for PO '+invoiceNum);
+}
+
+function deleteReceipt(id,invoiceNum){
+  const r=S.receipts.find(x=>x.id===id); if(!r) return;
+  confirmAction('Delete Receipt','Remove receipt for '+r.palletsReceived+' pallets (BOL: '+r.bol+')? The linked inventory entry will also be removed.','Delete',()=>{
+    if(r.evId) S.events=S.events.filter(e=>e.id!==r.evId);
+    S.receipts=S.receipts.filter(x=>x.id!==id);
+    save(); renderOrderDetail(invoiceNum); renderInventory(); toast('Receipt removed');
+  });
+}
+
+function openTargetsModal(){
+  const tgts=getTargets(S.store);
+  document.getElementById('targets-modal-store').textContent=S.store;
+  document.getElementById('targets-modal-body').innerHTML=CATS.map(c=>
+    '<div class="tgt-row"><span class="tgt-lbl">'+c+'</span>'+
+    '<input class="tgt-inp" type="number" min="0" data-cat="'+c+'" value="'+(tgts[c]||0)+'"></div>'
+  ).join('');
+  document.getElementById('targets-modal').classList.add('open');
+}
+function closeTargetsModal(e){ if(!e||e.target===e.currentTarget) document.getElementById('targets-modal').classList.remove('open'); }
+function saveTargets(){
+  if(!S.targets[S.store]) S.targets[S.store]={};
+  document.querySelectorAll('#targets-modal-body .tgt-inp').forEach(inp=>{
+    S.targets[S.store][inp.dataset.cat]=Math.max(0,parseInt(inp.value)||0);
+  });
+  save(); closeTargetsModal(); renderBalance();
+  toast('Targets saved for '+S.store);
+}
+
+function renderPurchasingRec(){
+  const store=S.store, tgts=getTargets(store), cs=catSummary(store);
+  const rows=CATS.map(cat=>{
+    const v=cs[cat]||{recv:0,proc:0,tin:0,tout:0};
+    const back=v.recv+v.tin-v.tout-v.proc;
+    const onOrd=palletsOnOrder(store,cat);
+    const tgt=tgts[cat]||0;
+    return {cat,back,onOrd,tgt,gap:tgt-(back+onOrd)};
+  }).sort((a,b)=>b.gap-a.gap);
+  const needBuy=rows.filter(r=>r.gap>0);
+  let h='<div class="bcard" style="margin-bottom:14px">'+
+    '<div class="bcard-hd">'+
+      '<div class="bcard-top" style="align-items:flex-start">'+
+        '<span class="bcard-title">&#127919; Purchasing Guide</span>'+
+        '<button class="btn btn-d btn-sm" onclick="openTargetsModal()" style="font-size:9px;padding:5px 10px;flex-shrink:0">Set Targets</button>'+
+      '</div>'+
+      '<div class="bcard-week">'+store+' &mdash; back inventory vs. par levels (includes in-transit pallets)</div>'+
+    '</div>';
+  if(needBuy.length){
+    h+='<div class="bsec"><div class="bsec-ttl p">Buy now ('+needBuy.length+' categor'+(needBuy.length===1?'y':'ies')+')</div>'+
+      needBuy.map(r=>{
+        const filled=r.tgt>0?Math.min(100,Math.round(((r.back+r.onOrd)/r.tgt)*100)):0;
+        const col=filled<40?'var(--red)':filled<70?'var(--amber)':'var(--green)';
+        const onOrdLabel=r.onOrd>0?'<span style="color:var(--blue);font-size:10px;font-weight:700"> +'+r.onOrd+'&#9651;</span>':'';
+        return '<div class="buy-row">'+
+          '<span class="buy-cat">'+r.cat+'</span>'+
+          '<div class="buy-bar-wrap"><div class="buy-bar" style="width:'+filled+'%;background:'+col+'"></div></div>'+
+          '<span class="buy-num" style="color:var(--muted)">'+r.back+'</span>'+
+          onOrdLabel+
+          '<span class="buy-num" style="color:var(--muted)">/'+r.tgt+'</span>'+
+          '<span class="buy-num" style="color:var(--red)">-'+r.gap+'</span>'+
+        '</div>';
+      }).join('')+
+    '</div>';
+  } else {
+    h+='<div class="bsec"><div class="alert info" style="margin:0">&#10003; All categories at or above target for '+store+'</div></div>';
+  }
+  h+='<div class="bsec"><div class="bsec-ttl g">All categories</div>'+
+    '<div style="overflow-x:auto"><table class="btbl"><thead><tr>'+
+    '<th>Category</th><th class="num">Back Inv</th><th class="num" style="color:var(--blue)">On Order</th><th class="num">Target</th><th class="num">Gap</th>'+
+    '</tr></thead><tbody>'+
+    rows.map(r=>{
+      const gc=r.gap>0?'var(--red)':r.gap<0?'var(--blue)':'var(--green-dark)';
+      return '<tr>'+
+        '<td>'+r.cat+'</td>'+
+        '<td class="num">'+r.back+'</td>'+
+        '<td class="num" style="color:var(--blue)">'+(r.onOrd||'—')+'</td>'+
+        '<td class="num">'+r.tgt+'</td>'+
+        '<td class="num" style="color:'+gc+'"><strong>'+(r.gap>0?'+'+r.gap:r.gap)+'</strong></td>'+
+      '</tr>';
+    }).join('')+
+    '</tbody></table></div></div></div>';
+  return h;
+}
+
+function renderDiscrepancyReport(){
+  const discs=S.orders.filter(o=>calcOrderStatus(o)==='Discrepancy');
+  if(!discs.length) return '';
+  return '<div class="bcard" style="border-color:var(--red);margin-bottom:14px">'+
+    '<div class="bcard-hd">'+
+      '<div class="bcard-top"><span class="bcard-title">&#9888; Discrepancies</span>'+
+      '<span class="bcard-num" style="color:var(--red)">'+discs.length+'</span></div>'+
+      '<div class="bcard-week">POs where pallets received &ne; pallets ordered</div>'+
+    '</div>'+
+    '<div style="padding:0 16px">'+
+    discs.map(o=>{
+      const recvd=S.receipts.filter(r=>r.invoiceNum===o.invoiceNum).reduce((a,r)=>a+r.palletsReceived,0);
+      return '<div class="po-row" onclick="go(\'orders\');setTimeout(()=>openOrderDetail(\''+o.invoiceNum+'\'),80)">'+
+        '<div class="po-main">'+
+          '<div class="po-inv">'+o.invoiceNum+'</div>'+
+          '<div class="po-meta">'+o.vendor+' &middot; '+o.cat+' &middot; '+o.store+'</div>'+
+        '</div>'+
+        '<div class="po-right">'+
+          '<div class="po-pallets" style="color:var(--red)">'+recvd+'/'+o.palletsOrdered+' pal</div>'+
+          poStatusPill('Discrepancy')+
+        '</div>'+
+      '</div>';
+    }).join('')+
+    '</div></div>';
+}
+
 // ── RENDER BALANCE ────────────────────────────────────────────
 function renderBalance(){
   const friStr=document.getElementById('week-pick').value||getWeekFri(today());
@@ -1108,7 +1517,7 @@ function renderBalance(){
   const weekRange=friStr+' &rarr; '+thuStr;
   updateNextArrow();
   const el=document.getElementById('bal-content');
-  let html='';
+  let html=renderPurchasingRec()+renderDiscrepancyReport();
 
   // Weekly Processed
   const activeProcCats=new Set(); const wpData={};
@@ -1188,7 +1597,6 @@ function renderBalance(){
     html+='</tbody></table></div></div>';
   });
 
-  if(!html) html='<div class="empty"><div class="ico">&#128202;</div><p>Add inventory entries to see reports</p></div>';
   el.innerHTML=html;
 }
 
